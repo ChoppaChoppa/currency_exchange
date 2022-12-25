@@ -1,19 +1,27 @@
 package http
 
-import "github.com/gofiber/fiber"
+import (
+	"currency_exchange/internal/transport/http/handlers"
+	"github.com/gofiber/fiber"
+)
 
 type Server struct {
 	*fiber.App
-	host string
+	host     string
+	handlers *handlers.Handler
 }
 
-func New(host string) *Server {
+func New(host string, handlers *handlers.Handler) *Server {
 	return &Server{
-		host: host,
+		App:      fiber.New(),
+		host:     host,
+		handlers: handlers,
 	}
 }
 
 func (s *Server) Run() error {
+	InitRouters(s)
+
 	if err := s.App.Listen(":3030"); err != nil {
 		return err
 	}

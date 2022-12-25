@@ -2,19 +2,10 @@ package models
 
 import "time"
 
-var (
-	USD Currency = "USD"
-	RUB Currency = "RUB"
-	BTC Currency = "BTC"
-	EUR Currency = "EUR"
-)
-
-type Currency string
-
 type CurrencyPair struct {
-	ID        int       `json:"id"`
-	Well      int       `json:"well"`
-	From      Currency  `json:"from"`
-	To        Currency  `json:"to"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        int       `json:"id" db:"id"`
+	Well      float64   `json:"well" db:"well"`
+	From      string    `json:"currency_from" db:"currency_from"`
+	To        string    `json:"currency_to" db:"currency_to"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
