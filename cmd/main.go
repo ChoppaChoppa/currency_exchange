@@ -19,16 +19,6 @@ import (
 )
 
 func main() {
-	//asd := currate.ClientResponse{}
-	//asd.Status = 200
-	//asd.Message = "asdf"
-	//asd.Data = make(map[string]string)
-	//asd.Data["USDRUB"] = "1234"
-	//
-	//data, _ := json.Marshal(asd)
-	//fmt.Println(string(data))
-	//return
-
 	out := zerolog.ConsoleWriter{
 		Out:        os.Stdout,
 		TimeFormat: time.StampMilli,
@@ -47,7 +37,7 @@ func main() {
 		cfg.DataBase.User,
 		cfg.DataBase.Password,
 	)
-	fmt.Println(dbConnStr)
+
 	pool, err := newPgxPool(dbConnStr)
 	if err != nil {
 		logger.Fatal().Err(err).Msg("failed to create pgx pool")
@@ -59,7 +49,7 @@ func main() {
 	svc := service.New(logger, psqlStorage, client)
 
 	handler := handlers.New(logger, svc)
-	fmt.Println(handler.CreatePairHandler)
+
 	server := http.New(cfg.Server.Host, handler)
 
 	go func() {

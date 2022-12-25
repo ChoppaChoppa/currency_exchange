@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"currency_exchange/internal/models"
-	"fmt"
 	"github.com/gofiber/fiber"
 	"net/http"
 )
@@ -18,7 +17,7 @@ func (h *Handler) CreatePairHandler(c *fiber.Ctx) {
 		})
 		return
 	}
-	fmt.Println(pair.From, pair.To)
+
 	if err := h.service.CreatePair(c.Context(), pair); err != nil {
 		h.logger.Error().Err(err).Msg("failed to create pair")
 		c.JSON(models.Response{

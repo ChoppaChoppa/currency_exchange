@@ -28,8 +28,7 @@ func New(logger zerolog.Logger) *Currate {
 
 func (c *Currate) Get(from, to string) (*ClientResponse, error) {
 	url := parseUrl(from, to)
-	fmt.Println(url)
-	fmt.Println("https://currate.ru/api/?get=rates&pairs=USDRUB&key=5d85126e1e249d64475fd15be2db5c2c")
+
 	resp, err := c.Client.Get(url)
 	if err != nil {
 		return nil, err
@@ -41,13 +40,11 @@ func (c *Currate) Get(from, to string) (*ClientResponse, error) {
 		return nil, err
 	}
 
-	fmt.Println(string(buf))
 	var pair *ClientResponse
 	if err = json.Unmarshal(buf, &pair); err != nil {
 		return nil, err
 	}
 
-	fmt.Println("3")
 	return pair, nil
 }
 
