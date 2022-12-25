@@ -9,6 +9,6 @@ func InitRouters(s *Server) {
 	api.Use(middleware.Logger())
 
 	api.Post("/currency", s.handlers.CreatePairHandler)
+	api.Get("/exchange", s.handlers.Exchange)
 	api.Get("/currency", nil)
-	api.Get("currency", nil)
 }

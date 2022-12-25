@@ -4,6 +4,7 @@ import (
 	"context"
 	"currency_exchange/internal/clients/currate"
 	"currency_exchange/internal/models"
+	"fmt"
 	"github.com/rs/zerolog"
 	"net/http"
 	"strconv"
@@ -59,4 +60,17 @@ func (s *service) CreatePair(ctx context.Context, pair *models.CurrencyPair) err
 	}
 
 	return nil
+}
+
+func (s *service) CurrencyExchange(ctx context.Context, pair *models.CurrencyPair) (float64, error) {
+	well, err := s.storage.GetExchangeRate(ctx, pair.From, pair.To)
+	if err != nil {
+		s.logger.Error().Err(err).Msg("failed to get exchange rate")
+		return 0, err
+	}
+
+	fmt.Println(well, pair.Value)
+	total := well * float64(pair.Value)
+
+	return total, nil
 }

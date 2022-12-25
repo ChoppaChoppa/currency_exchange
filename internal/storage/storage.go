@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"currency_exchange/internal/models"
+	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -66,8 +67,9 @@ func (s *storage) GetExchangeRate(ctx context.Context, FromCurrency, ToCurrency 
 		FromCurrency,
 		ToCurrency,
 	).Scan(&well)
+	fmt.Println(well)
 	if err != nil {
-		return 0, nil
+		return 0, err
 	}
 
 	return well, nil
