@@ -9,6 +9,7 @@ import (
 type IService interface {
 	CreatePair(ctx context.Context, pair *models.CurrencyPair) error
 	CurrencyExchange(ctx context.Context, pair *models.CurrencyPair) (float64, error)
+	GetAllPairs(ctx context.Context) ([]*models.CurrencyPair, error)
 }
 
 type Handler struct {

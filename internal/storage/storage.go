@@ -3,7 +3,6 @@ package storage
 import (
 	"context"
 	"currency_exchange/internal/models"
-	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -67,7 +66,7 @@ func (s *storage) GetExchangeRate(ctx context.Context, FromCurrency, ToCurrency 
 		FromCurrency,
 		ToCurrency,
 	).Scan(&well)
-	fmt.Println(well)
+
 	if err != nil {
 		return 0, err
 	}
@@ -77,7 +76,7 @@ func (s *storage) GetExchangeRate(ctx context.Context, FromCurrency, ToCurrency 
 
 func (s *storage) GetAllPair(ctx context.Context) ([]*models.CurrencyPair, error) {
 	query := `
-		SELECT id, currency_from, currency_to
+		SELECT currency_from, currency_to
 		FROM currency
 	`
 
@@ -93,7 +92,6 @@ func (s *storage) GetAllPair(ctx context.Context) ([]*models.CurrencyPair, error
 		pair := new(models.CurrencyPair)
 
 		if err = rows.Scan(
-			&pair.ID,
 			&pair.From,
 			&pair.To,
 		); err != nil {

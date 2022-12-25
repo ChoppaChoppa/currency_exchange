@@ -4,7 +4,6 @@ import (
 	"context"
 	"currency_exchange/internal/clients/currate"
 	"currency_exchange/internal/models"
-	"fmt"
 	"github.com/rs/zerolog"
 	"net/http"
 	"strconv"
@@ -69,8 +68,17 @@ func (s *service) CurrencyExchange(ctx context.Context, pair *models.CurrencyPai
 		return 0, err
 	}
 
-	fmt.Println(well, pair.Value)
 	total := well * float64(pair.Value)
 
 	return total, nil
+}
+
+func (s *service) GetAllPairs(ctx context.Context) ([]*models.CurrencyPair, error) {
+	pairs, err := s.storage.GetAllPair(ctx)
+	if err != nil {
+		s.logger.Error().Err(err).Msg("failed to get all pairs")
+		return nil, err
+	}
+
+	return pairs, nil
 }
